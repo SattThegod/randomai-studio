@@ -1,7 +1,7 @@
 #!/bin/bash
 # RandomAI Studio: the installer for a Mac.
 #
-#   curl -fsSL https://raw.githubusercontent.com/SattThegod/randomai-studio/main/install.sh | bash
+#   curl -fsSL --connect-timeout 10 https://raw.githubusercontent.com/SattThegod/randomai-studio/main/install.sh | bash
 #
 # What it does, and nothing else:
 #   1. looks up the newest version and which package fits this Mac (Apple or Intel chip);
@@ -34,6 +34,26 @@ main() {
     exit 1
   }
 
+  # GitHub answers from several server addresses. On some networks one of them cannot be reached, and curl left
+  # to itself waits up to a minute on it before it tries the next one. With a limit on the time to connect it
+  # moves on after a few seconds. So: a quick try first, then a patient one for a connection that really is slow.
+  #   fetch <address> <file> [bar]
+  local patient=""
+  fetch() {
+    local show="-sS" quiet="-s"
+    if [ "${3:-}" = "bar" ] && [ -t 2 ]; then
+      show="--progress-bar"
+      quiet="--progress-bar"
+    fi
+    if [ -z "$patient" ]; then
+      # the quick try keeps its complaint to itself: the patient one below says what is wrong, if anything is
+      if curl -fL $quiet --connect-timeout 8 "$1" -o "$2"; then return 0; fi
+      patient=1
+      say "That did not get through at once. Trying again, with more patience…"
+    fi
+    curl -fL $show --retry 2 --connect-timeout 30 "$1" -o "$2"
+  }
+
   # ── this computer ───────────────────────────────────────────────────────────────────────────────────────────
   [ "$(uname -s)" = "Darwin" ] || fail "This installer is for a Mac. On Windows, use install.ps1 instead."
   local arch
@@ -61,7 +81,8 @@ main() {
 
   # ── the newest version ──────────────────────────────────────────────────────────────────────────────────────
   say "RandomAI Studio installer (Mac, $arch)"
-  curl -fsSL --retry 3 --connect-timeout 20 "$BASE/checksums.txt" -o "$tmp/checksums.txt" || fail "The download address could not be reached ($BASE). Check the internet connection and try again."
+  say "Looking up the newest version…"
+  fetch "$BASE/checksums.txt" "$tmp/checksums.txt" || fail "The download address could not be reached ($BASE). Check the internet connection and try again."
   local version line want_sha want_size file
   version="$(awk '$1 == "version" { print $2; exit }' "$tmp/checksums.txt")"
   line="$(grep -E "  RandomAI-Studio-.*-mac-${arch}\.zip\$" "$tmp/checksums.txt" | head -n 1 || true)"
@@ -98,9 +119,7 @@ main() {
 
   # ── download and check ──────────────────────────────────────────────────────────────────────────────────────
   say "Downloading RandomAI Studio $version ($((want_size / 1000000)) MB)…"
-  local bar="-sS"
-  if [ -t 2 ]; then bar="--progress-bar"; fi
-  curl -fL $bar --retry 3 --connect-timeout 20 "$BASE/$file" -o "$tmp/$file" || fail "The download did not finish. Check the internet connection and try again."
+  fetch "$BASE/$file" "$tmp/$file" bar || fail "The download did not finish. Check the internet connection and try again."
   local got_sha got_size
   got_size="$(stat -f %z "$tmp/$file")"
   got_sha="$(shasum -a 256 "$tmp/$file" | awk '{ print $1 }')"

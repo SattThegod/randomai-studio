@@ -44,7 +44,7 @@ or 64-bit Windows 10 or 11. If the computer is older, say so plainly and stop.
 **Mac**
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/SattThegod/randomai-studio/main/install.sh -o /tmp/randomai-studio-install.sh
+curl -fsSL --connect-timeout 10 https://raw.githubusercontent.com/SattThegod/randomai-studio/main/install.sh -o /tmp/randomai-studio-install.sh
 ```
 
 **Windows** (PowerShell)
@@ -151,6 +151,8 @@ unless they ask in so many words to delete them too.
 |---|---|---|
 | `This installer is for a Mac` / `for Windows` | The wrong script for this system | Use the other one |
 | `needs macOS 12 or newer` / `needs Windows 10 or 11` / `needs 64-bit Windows` | The computer is too old | Tell the person. There is no workaround |
+| A download stands still for many seconds before anything is printed | One of GitHub's server addresses cannot be reached from this network, and the download tool waits on it before it tries the next one | Nothing is broken. The install script moves on by itself after a few seconds. For a `curl` you run yourself, add `--connect-timeout 10`, as in the command above |
+| `That did not get through at once. Trying again, with more patience…` | The quick first try failed; the script is trying again with longer waits | Let it run. It ends with `✓` or with one of the lines below |
 | `The download address could not be reached` or `The download did not finish` | No connection, or GitHub is blocked on this network | Check the connection and run it once more. If GitHub is blocked (an office or school network), say so |
 | `does not match the published one` | The file arrived damaged or changed | Run it once more. If it happens twice, stop and write the report. Never install a file that failed this check |
 | `RandomAI Studio is open` | The app is running | Ask the person, then use `RAS_QUIT_APP=1` (see Update) |

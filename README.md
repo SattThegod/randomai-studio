@@ -34,7 +34,7 @@ Fix RandomAI Studio for me: https://github.com/SattThegod/randomai-studio
 **Mac** (Terminal):
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/SattThegod/randomai-studio/main/install.sh | bash
+curl -fsSL --connect-timeout 10 https://raw.githubusercontent.com/SattThegod/randomai-studio/main/install.sh | bash
 ```
 
 > **Windows is not released yet.** It is being tested, and the community will announce it. Until then the Windows command below does not work.
