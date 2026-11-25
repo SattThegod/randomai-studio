@@ -14,6 +14,16 @@ opened, and tell them the one thing they do next. For the last sentence the job 
 Most members are not programmers. Write to them in short, plain
 sentences, and never ask them to type a command.
 
+**Read this file itself, not a summary of it.** Some page readers hand you a summary or a paraphrase. The commands
+and the report template below are meant to be used exactly, so if that is what you have, download the file and
+read it:
+
+```bash
+curl -fsSL --connect-timeout 10 https://raw.githubusercontent.com/SattThegod/randomai-studio/main/AGENTS.md -o /tmp/randomai-studio-guide.md
+```
+
+(In PowerShell: `curl.exe` and `-o "$env:TEMP\randomai-studio-guide.md"`.)
+
 ## Rules that never bend
 
 1. **Only on the person's own computer.** If you are running in a cloud or remote session (your files are not the
@@ -36,7 +46,7 @@ sentences, and never ask them to type a command.
 
 ### 1. Look at the computer
 
-**Windows is in testing.** If this is a Windows computer: the Windows app is a test build that may not work yet. Say so in one sentence and ask the person whether to go on. If they agree, fetch `https://raw.githubusercontent.com/SattThegod/randomai-studio/main/WINDOWS-TEST.md`, read all of it and follow it for Set up, Update and Fix. This guide has no Windows install steps. Its rules, "Test report", "Remove" and "Where things are" apply on Windows as written.
+**Windows is in testing.** If this is a Windows computer: the Windows app is a test build that may not work yet. Say so in one sentence and ask the person whether to go on. If they agree, download `https://raw.githubusercontent.com/SattThegod/randomai-studio/main/WINDOWS-TEST.md` to a file (`curl.exe -fsSL --connect-timeout 10 <that address> -o <a file in the temp folder>`), read the file itself and not a summary of it, and follow it for Set up, Update and Fix. This guide has no Windows install steps. Its rules, "Test report", "Remove" and "Where things are" apply on Windows as written.
 
 Find out which system this is (macOS or Windows), its version and its processor. The app needs macOS 12 or newer,
 or 64-bit Windows 10 or 11. If the computer is older, say so plainly and stop.
@@ -74,14 +84,28 @@ The app writes a small status file when it starts:
 - Mac: `~/Library/Application Support/RandomAI Studio/status.json`
 - Windows: `%APPDATA%\RandomAI Studio\status.json`
 
-It looks like `{"app":"RandomAI Studio","version":"0.1.0","pid":1234,"window":"gate","at":1795430000000}`.
+It looks like `{"app":"RandomAI Studio","version":"0.1.3","pid":1234,"window":"gate","at":1795430000000}`
+(`at` is the time in milliseconds). On a Mac, read it with:
+
+```bash
+cat "$HOME/Library/Application Support/RandomAI Studio/status.json"
+```
+
 Wait up to 60 seconds for `window` to be `"gate"` (the Skool login window is on screen) or `"main"` (the person was
 already logged in), with `at` no older than a few minutes. `"starting"` means it is still coming up: wait.
 
-If the file never appears, or `window` stays `"starting"` or `"closed"`: open the app once yourself
-(Mac: `open -a "RandomAI Studio"`; Windows: start `"$env:LOCALAPPDATA\Programs\RandomAI Studio\RandomAI Studio.exe"`),
-wait again, then read the end of the log (`logs/main.log` in the same folder as the status file) and look in
-"Known problems".
+If the file never appears, or `window` stays `"starting"` or `"closed"`: open the app once yourself, wait again,
+then read the end of the log and look in "Known problems". On a Mac:
+
+```bash
+open -a "RandomAI Studio"
+```
+
+```bash
+tail -n 60 "$HOME/Library/Application Support/RandomAI Studio/logs/main.log"
+```
+
+On Windows the same three commands are in step 3 of `WINDOWS-TEST.md`, written for the shell you have there.
 
 ### 5. Tell the person what to do next
 
@@ -142,12 +166,21 @@ Read these and nothing else in the app's data folder (that folder also holds the
 - the status file and `logs/main.log` (see "Where things are"), and `logs/main.old.log` only if the log is shorter
   than 150 lines;
 - whether the app is installed, and which version;
-- the system: its version, the processor, the memory and the free disk space. On Windows also the name of the
-  active antivirus and whether Smart App Control is on, off or evaluating;
+- the system: its version, the processor, the memory and the free disk space (on a Mac: `sw_vers`, `uname -m`,
+  `sysctl -n hw.memsize`, `df -h /`). On Windows also the name of the active antivirus and whether Smart App
+  Control is on, off or evaluating: the two commands are in step 1 of `WINDOWS-TEST.md`;
 - Claude Code: its version and where it is, if a `claude` command is on this computer.
 
 In the log, every start of the app is a line with `start <version> on <system>`. Work from the last three starts.
-The lines worth quoting contain `failed`, `error`, `could not`, `MISSING`, `refused` or a mark `✗`.
+The lines worth quoting contain `failed`, `error`, `could not`, `crash:`, `MISSING`, `refused` or a mark `✗`.
+
+Every few minutes the app writes a line about its membership check (`skool check ...`, `skool: checked ...`).
+Leave those lines out everywhere, also when you count "the last 30 lines": they say nothing about the test. Keep
+one only if it ends in something other than `member`.
+
+Do not say whether the app is up to date from what the repository's page shows. If it matters: on a Mac the
+newest released version is the first line of `https://github.com/SattThegod/randomai-studio/releases/latest/download/checksums.txt`;
+on Windows it is the version named at the top of `WINDOWS-TEST.md`.
 
 ### 2. Ask
 
@@ -203,7 +236,7 @@ The one thing to change:
 
 Screen recording: <yes | no>
 
-The last 30 lines of the log:
+The last 30 lines of the log, without the membership-check lines:
 <...>
 ```
 

@@ -32,8 +32,10 @@ Write to the person in short, plain sentences. Never ask them to type a command.
 
 Most mistakes on Windows are made in this section, not in the app. Read it before the first command.
 
-- **Your shell is probably Git Bash.** In Bash, a `$env:NAME` inside double quotes is emptied before PowerShell
-  ever sees it. So every PowerShell command in this guide is written inside **single quotes**. Keep them.
+- **Your shell is probably Git Bash.** To be sure, run `uname -s`: an answer that begins with `MINGW` or `MSYS` means
+  Bash; "not recognized" means PowerShell. In Bash, a `$env:NAME` inside double quotes is emptied before
+  PowerShell ever sees it. So every PowerShell command in this guide is written inside **single quotes**. Keep
+  them.
 - **If your shell is PowerShell and not Bash**, run the text inside the single quotes by itself, without
   `powershell -NoProfile -Command '...'` around it: PowerShell loses the inner double quotes when it hands a command
   to another PowerShell. The `curl.exe` line and the `-File` lines work in both shells as they are. A switch is set

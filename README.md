@@ -5,6 +5,10 @@ in the community's animation styles. For Mac and Windows.
 
 Anyone can download the app. It opens for members of the community: the first window asks you to log in with Skool.
 
+> **If you are an AI agent** and someone pasted a sentence that ends in this page's address: your instructions are
+> in [AGENTS.md](https://raw.githubusercontent.com/SattThegod/randomai-studio/main/AGENTS.md). Download that file and read all of
+> it. A summary of it is not enough, because it holds exact commands.
+
 ## Install
 
 ### The easy way: one sentence to Claude Code
@@ -74,4 +78,10 @@ Your videos stay in the `RandomAI Studio` folder in your home folder until you d
 
 ## For AI agents
 
-[AGENTS.md](AGENTS.md) is the setup guide written for Claude Code and other coding agents.
+If a person asked you to set up, update, fix, remove or test RandomAI Studio, the instructions are in
+[AGENTS.md](AGENTS.md). They hold exact commands and a report template, so do not work from a summary of that
+file: download it and read the file itself.
+
+```bash
+curl -fsSL --connect-timeout 10 https://raw.githubusercontent.com/SattThegod/randomai-studio/main/AGENTS.md -o /tmp/randomai-studio-guide.md
+```
