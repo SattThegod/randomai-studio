@@ -29,6 +29,12 @@ Update RandomAI Studio for me: https://github.com/SattThegod/randomai-studio
 Fix RandomAI Studio for me: https://github.com/SattThegod/randomai-studio
 ```
 
+Testing the app for the community? When you have tried it, this has your Claude write the report:
+
+```
+Write a RandomAI Studio test report for me: https://github.com/SattThegod/randomai-studio
+```
+
 ### One command
 
 **Mac** (Terminal):
@@ -37,13 +43,7 @@ Fix RandomAI Studio for me: https://github.com/SattThegod/randomai-studio
 curl -fsSL --connect-timeout 10 https://raw.githubusercontent.com/SattThegod/randomai-studio/main/install.sh | bash
 ```
 
-> **Windows is not released yet.** It is being tested, and the community will announce it. Until then the Windows command below does not work.
-
-**Windows** (PowerShell):
-
-```powershell
-irm https://raw.githubusercontent.com/SattThegod/randomai-studio/main/install.ps1 | iex
-```
+> **Windows is in testing.** The sentence above works on Windows too: your Claude sets up a test build, which may not work yet, and writes a report if it does not. There is no one-command way for Windows yet.
 
 ## What the installer does
 
@@ -68,6 +68,7 @@ Everything else (the video tools) the app sets up itself from its Home page.
 
 - **Mac:** move RandomAI Studio from Applications to the Trash.
 - **Windows:** Settings → Apps → Installed apps → RandomAI Studio → Uninstall.
+- **Either:** paste `Remove RandomAI Studio for me: https://github.com/SattThegod/randomai-studio` into Claude Code.
 
 Your videos stay in the `RandomAI Studio` folder in your home folder until you delete them yourself.
 

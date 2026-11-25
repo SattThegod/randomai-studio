@@ -6,10 +6,12 @@ You are reading this because someone pasted one of these sentences into Claude C
 - **Update RandomAI Studio for me: https://github.com/SattThegod/randomai-studio**
 - **Fix RandomAI Studio for me: https://github.com/SattThegod/randomai-studio**
 - **Remove RandomAI Studio for me: https://github.com/SattThegod/randomai-studio**
+- **Write a RandomAI Studio test report for me: https://github.com/SattThegod/randomai-studio**
 
 RandomAI Studio is a desktop app (Mac and Windows) for members of RandomAI Community on Skool. In it, the member's
 own AI makes videos. Your job here is small: get the app onto this person's computer, make sure its window really
-opened, and tell them the one thing they do next. Most members are not programmers. Write to them in short, plain
+opened, and tell them the one thing they do next. For the last sentence the job is different: see "Test report".
+Most members are not programmers. Write to them in short, plain
 sentences, and never ask them to type a command.
 
 ## Rules that never bend
@@ -34,7 +36,7 @@ sentences, and never ask them to type a command.
 
 ### 1. Look at the computer
 
-**Windows is not released yet.** If this is a Windows computer, tell the person that the Windows version is still being tested and that the community will announce it, and stop there. Run nothing.
+**Windows is in testing.** If this is a Windows computer: the Windows app is a test build that may not work yet. Say so in one sentence and ask the person whether to go on. If they agree, fetch `https://raw.githubusercontent.com/SattThegod/randomai-studio/main/WINDOWS-TEST.md`, read all of it and follow it for Set up, Update and Fix. This guide has no Windows install steps. Its rules, "Test report", "Remove" and "Where things are" apply on Windows as written.
 
 Find out which system this is (macOS or Windows), its version and its processor. The app needs macOS 12 or newer,
 or 64-bit Windows 10 or 11. If the computer is older, say so plainly and stop.
@@ -45,12 +47,6 @@ or 64-bit Windows 10 or 11. If the computer is older, say so plainly and stop.
 
 ```bash
 curl -fsSL --connect-timeout 10 https://raw.githubusercontent.com/SattThegod/randomai-studio/main/install.sh -o /tmp/randomai-studio-install.sh
-```
-
-**Windows** (PowerShell)
-
-```powershell
-Invoke-WebRequest -UseBasicParsing https://raw.githubusercontent.com/SattThegod/randomai-studio/main/install.ps1 -OutFile "$env:TEMP\randomai-studio-install.ps1"
 ```
 
 Read the whole file. It should do exactly four things: look up the newest version, download one package and check
@@ -65,14 +61,7 @@ report.
 bash /tmp/randomai-studio-install.sh
 ```
 
-**Windows**
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File "$env:TEMP\randomai-studio-install.ps1"
-```
-
-`-ExecutionPolicy Bypass` applies to this one run only and changes no setting. The download is 100 to 160 MB, so
-allow a few minutes on a slow connection.
+The download is 100 to 160 MB, so allow a few minutes on a slow connection.
 
 Read every line the script prints. Success ends with a line that starts with `✓` (Mac) or `[ok]` (Windows) and
 says "is installed in" or "is already installed in". A line that starts with `✗` or `[x]` is a failure: find it in
@@ -104,6 +93,9 @@ Say this, in your own words:
 
 Do not try to log in for them, and do not open Skool yourself.
 
+If the person says they are testing the app for the community, add one line: when they have gone through the
+app, they come back and paste the "Write a RandomAI Studio test report for me" sentence.
+
 ## Update
 
 The same script updates the app. If the app is open, ask the person first: "RandomAI Studio is open. Is it making a
@@ -131,11 +123,94 @@ not install problems. The app's Home page has a system check that repairs tools;
 Ask first. Then:
 
 - Mac: quit the app, and move `/Applications/RandomAI Studio.app` (or the copy in `~/Applications`) to the Trash.
-- Windows: run `"$env:LOCALAPPDATA\Programs\RandomAI Studio\uninstall.ps1"` with
-  `powershell -NoProfile -ExecutionPolicy Bypass -File`.
+- Windows: `powershell -NoProfile -ExecutionPolicy Bypass -Command '& "$env:LOCALAPPDATA\Programs\RandomAI Studio\uninstall.ps1"'`
+  (the single quotes matter when your shell is Bash).
 
 Leave the person's videos (the `RandomAI Studio` folder in their home folder) and the app's data folder alone
 unless they ask in so many words to delete them too.
+
+## Test report
+
+The person is one of the community's early testers. They have tried the app and want to send feedback. Your job
+is to look, ask and write. **Change nothing.** Do not install, update, repair or remove anything while you write
+a report, even when you can see what is wrong: the report is how it gets fixed for everyone.
+
+### 1. Look
+
+Read these and nothing else in the app's data folder (that folder also holds the person's logins):
+
+- the status file and `logs/main.log` (see "Where things are"), and `logs/main.old.log` only if the log is shorter
+  than 150 lines;
+- whether the app is installed, and which version;
+- the system: its version, the processor, the memory and the free disk space. On Windows also the name of the
+  active antivirus and whether Smart App Control is on, off or evaluating;
+- Claude Code: its version and where it is, if a `claude` command is on this computer.
+
+In the log, every start of the app is a line with `start <version> on <system>`. Work from the last three starts.
+The lines worth quoting contain `failed`, `error`, `could not`, `MISSING`, `refused` or a mark `✗`.
+
+### 2. Ask
+
+Ask these five together, and say that short answers are fine:
+
+1. How far did you get? Installed · logged in with Skool · tools ready · Claude connected · a style installed ·
+   a first project with a preview · a change through the chat · a video exported · closed and opened again.
+2. Where did it go wrong, if anywhere, and what was on the screen?
+3. Did macOS, Windows or an antivirus show a message? What did it say?
+4. Was anything slow, confusing or ugly?
+5. What is the one thing you would change?
+
+Then ask whether they recorded their screen.
+
+### 3. Write
+
+Fill in the report below. Quote log lines exactly, with these things taken out: replace the home folder's name
+with `~` in every path, and leave out email addresses, user and computer names, passwords, keys, tokens, cookies
+and the contents of the person's own files.
+
+```
+RandomAI Studio test report
+App: <version> · installed with <the sentence | the Terminal command> · <installed | not installed>
+System: <macOS 15.2, Apple chip, 16 GB memory, 80 GB free | Windows 11 23H2 (build 22631), 64-bit Intel, 16 GB memory, 80 GB free>
+Protection: <on Windows: antivirus name · Smart App Control on / off / evaluating | on a Mac: leave this line out>
+Claude Code: <version, and where it is | no claude command found>
+
+How far it got:
+ 1 Install                  <worked | failed | not tried>  <one line>
+ 2 Log in with Skool        <...>
+ 3 Tools                    <...>  <which ones the app installed, which were already there>
+ 4 Connect Claude           <...>
+ 5 Install a style          <...>  <which style, how long>
+ 6 First project, preview   <...>
+ 7 A change through chat    <...>
+ 8 Export                   <...>
+ 9 Close and open again     <...>
+
+What went wrong, in the person's words:
+<...>
+
+What the log says about it (exact lines, at most 25):
+<...>
+
+Messages from macOS, Windows or an antivirus (exact words):
+<...>
+
+Slow, confusing or ugly:
+<...>
+
+The one thing to change:
+<...>
+
+Screen recording: <yes | no>
+
+The last 30 lines of the log:
+<...>
+```
+
+### 4. Hand it over
+
+Give the report in one block the person can copy. Ask them to read it, then post it under the early testers post
+in RandomAI Community, together with the link to their recording if they made one.
 
 ## Where things are
 
