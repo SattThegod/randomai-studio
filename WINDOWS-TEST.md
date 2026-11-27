@@ -4,8 +4,8 @@ You are here because someone on a Windows computer pasted a RandomAI Studio sent
 main guide ([AGENTS.md](https://raw.githubusercontent.com/SattThegod/randomai-studio/main/AGENTS.md)) sent you on. They are helping
 RandomAI Community test the app on Windows.
 
-**The Windows app is a test build (version 0.1.4, test "windows-test-2"). It has had no run on a real Windows
-computer that its maker could watch.** Expect something to go wrong. Your job is to get the test build onto this
+**The Windows app is a test build (version 0.1.5, test "windows-test-3"). It has run on a few testers' Windows
+computers, and never on one its maker could watch.** Expect something to go wrong. Your job is to get the test build onto this
 computer, see that its window opened, tell the person what to try, and bring back exactly what happened. A clear
 account of a failure is a good result.
 
@@ -82,7 +82,7 @@ still try, and what Windows says goes into the report." Then go on if they agree
 Get it, read all of it, then run it.
 
 ```bash
-curl.exe -fsSL --connect-timeout 10 --retry 2 -o "<TEMP>/randomai-studio-install.ps1" "https://github.com/SattThegod/randomai-studio/releases/download/windows-test-2/install.ps1"
+curl.exe -fsSL --connect-timeout 10 --retry 2 -o "<TEMP>/randomai-studio-install.ps1" "https://github.com/SattThegod/randomai-studio/releases/download/windows-test-3/install.ps1"
 ```
 
 It should look up a version, download one package and check its SHA-256, put the app into
@@ -113,7 +113,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "<TEMP>/ras-manual.ps1"
 
 ```powershell
 $ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue'
-$Base = 'https://github.com/SattThegod/randomai-studio/releases/download/windows-test-2'
+$Base = 'https://github.com/SattThegod/randomai-studio/releases/download/windows-test-3'
 $Name = 'RandomAI Studio'; $Exe = 'RandomAI Studio.exe'
 $Dest = Join-Path $env:LOCALAPPDATA "Programs\$Name"
 $New = "$Dest.new"; $Old = "$Dest.old"
@@ -185,7 +185,7 @@ The app writes a small status file when it starts. Read it:
 powershell -NoProfile -Command 'Get-Content "$env:APPDATA\RandomAI Studio\status.json"'
 ```
 
-It looks like `{"app":"RandomAI Studio","version":"0.1.4","pid":1234,"window":"gate","at":...}`. Wait up to
+It looks like `{"app":"RandomAI Studio","version":"0.1.5","pid":1234,"window":"gate","at":...}`. Wait up to
 60 seconds for `window` to be `"gate"` (the Skool login window is on screen) or `"main"`. `"starting"` means it is
 still coming up.
 
@@ -256,6 +256,7 @@ everything the install printed if it failed.
 | The status file says `gate` or `main` but the person sees no window | The window is behind others or on another screen | Run the `Start-Process` line of step 3: the app brings its window forward |
 | The window is all white or all black | The app started but did not draw | Note it. Send the last 60 lines of the log |
 | The log has lines that begin with `crash:` | Something inside the app broke | Quote them in the report |
+| In the app's chat the AI says it cannot run commands: "This tool is not available inside RandomAI Studio" | Version 0.1.4 refused PowerShell, which Claude Code uses for commands on a computer without Git for Windows | Update (above): from version 0.1.5 the app allows it. If it still happens after the update, write the report and quote the log lines that contain `refused the tool` |
 
 ## Remove
 

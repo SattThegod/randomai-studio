@@ -269,6 +269,7 @@ in RandomAI Community, together with the link to their recording if they made on
 | Windows: `The package does not hold RandomAI Studio.exe`, or the program disappears after install | An antivirus removed it | Do not disable the antivirus. Tell the person which program blocked it; they can allow RandomAI Studio there themselves. Then run the script again |
 | Windows: "Smart App Control blocked an app that may be unsafe" | Windows refuses apps without a publisher's signature | It cannot be allowed for one app. Write the report |
 | The status file says `gate` but the person sees no window | The window is behind others or on another screen | Mac: `open -a "RandomAI Studio"`. Windows: start the program again; it brings its window forward |
+| Windows: in the app's chat the AI says it cannot run commands ("This tool is not available inside RandomAI Studio") | Version 0.1.4 refused PowerShell, which Claude Code uses for commands on a computer without Git for Windows | Update: the test build named in `WINDOWS-TEST.md` allows it |
 | The log ends with a line containing `failed to start` | Something inside the app did not start | Run Fix once. Then the report |
 
 ## The report, when you cannot fix it
