@@ -270,6 +270,7 @@ in RandomAI Community, together with the link to their recording if they made on
 | Windows: "Smart App Control blocked an app that may be unsafe" | Windows refuses apps without a publisher's signature | It cannot be allowed for one app. Write the report |
 | The status file says `gate` but the person sees no window | The window is behind others or on another screen | Mac: `open -a "RandomAI Studio"`. Windows: start the program again; it brings its window forward |
 | Windows: in the app's chat the AI says it cannot run commands ("This tool is not available inside RandomAI Studio") | Version 0.1.4 refused PowerShell, which Claude Code uses for commands on a computer without Git for Windows | Update: the test build named in `WINDOWS-TEST.md` allows it |
+| In the app, "Set up transcription" ends with "Transcription is set up" but the step on Home still offers **Set up** | Versions up to 0.1.5 looked for the speech model in the wrong folder. Transcription itself works | Update: from version 0.1.6 the step shows as done by itself. No new set-up is needed |
 | The log ends with a line containing `failed to start` | Something inside the app did not start | Run Fix once. Then the report |
 
 ## The report, when you cannot fix it
